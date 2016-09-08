@@ -25,8 +25,31 @@ public class Trie {
 
     List<Map<Character, Integer>> buildTrie(String[] patterns) {
         List<Map<Character, Integer>> trie = new ArrayList<Map<Character, Integer>>();
+        Integer nextNodeIndex = 1;
 
-        // write your code here
+        for (String pattern : patterns) {
+            Integer currentNodeIndex = 0;
+            for(int i = 0; i < pattern.length(); i++) {
+                char currentSymbol = pattern.charAt(i);
+
+                Map<Character, Integer> currentNode = new HashMap<>();
+                if (!trie.contains(currentNodeIndex)) {
+                    currentNode.put(currentSymbol, currentNodeIndex);
+                    trie.add(currentNode);
+                    continue;
+                }
+                currentNode = trie.get(currentNodeIndex);
+
+                if (currentNode.containsKey(currentSymbol)) {
+                    currentNodeIndex = currentNode.get(currentSymbol);
+                } else {
+                    Map<Character, Integer> newNode = new HashMap<>();
+                    newNode.put(currentSymbol, nextNodeIndex);
+                    trie.get(currentNodeIndex).put(currentSymbol, nextNodeIndex);
+                    currentNodeIndex = nextNodeIndex++;
+                }
+            }
+        }
 
         return trie;
     }
