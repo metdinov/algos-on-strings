@@ -29,16 +29,16 @@ public class Trie {
 
         for (String pattern : patterns) {
             Integer currentNodeIndex = 0;
+            Map<Character, Integer> currentNode = new HashMap<>();
+            try {
+                currentNode = trie.get(currentNodeIndex);
+            } catch (Exception e) {
+                currentNode.put(pattern.charAt(0), nextNodeIndex);
+                trie.add(currentNode);
+            }
+
             for(int i = 0; i < pattern.length(); i++) {
                 char currentSymbol = pattern.charAt(i);
-
-                Map<Character, Integer> currentNode = new HashMap<>();
-                if (!trie.contains(currentNodeIndex)) {
-                    currentNode.put(currentSymbol, currentNodeIndex);
-                    trie.add(currentNode);
-                    continue;
-                }
-                currentNode = trie.get(currentNodeIndex);
 
                 if (currentNode.containsKey(currentSymbol)) {
                     currentNodeIndex = currentNode.get(currentSymbol);
