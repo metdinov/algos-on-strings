@@ -25,28 +25,27 @@ public class Trie {
 
     List<Map<Character, Integer>> buildTrie(String[] patterns) {
         List<Map<Character, Integer>> trie = new ArrayList<Map<Character, Integer>>();
-        Integer nextNodeIndex = 1;
 
         for (String pattern : patterns) {
             Integer currentNodeIndex = 0;
-            Map<Character, Integer> currentNode = new HashMap<>();
-            try {
-                currentNode = trie.get(currentNodeIndex);
-            } catch (Exception e) {
-                currentNode.put(pattern.charAt(0), nextNodeIndex);
-                trie.add(currentNode);
-            }
 
             for(int i = 0; i < pattern.length(); i++) {
                 char currentSymbol = pattern.charAt(i);
+
+                Map<Character, Integer> currentNode = new HashMap<>();
+                try {
+                    currentNode = trie.get(currentNodeIndex);
+                } catch (Exception e) {
+                    currentNode.put(currentSymbol, ++currentNodeIndex);
+                    trie.add(currentNode);
+                }
 
                 if (currentNode.containsKey(currentSymbol)) {
                     currentNodeIndex = currentNode.get(currentSymbol);
                 } else {
                     Map<Character, Integer> newNode = new HashMap<>();
-                    newNode.put(currentSymbol, nextNodeIndex);
-                    trie.get(currentNodeIndex).put(currentSymbol, nextNodeIndex);
-                    currentNodeIndex = nextNodeIndex++;
+                    newNode.put(currentSymbol, ++currentNodeIndex);
+                    trie.add(newNode);
                 }
             }
         }
